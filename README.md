@@ -1,3 +1,3 @@
 ## CountriesListJetpack
 
-A city list implementation made using Jetpack items
+A country list application implementation made using Jetpack items
