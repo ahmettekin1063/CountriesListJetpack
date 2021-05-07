@@ -7,6 +7,8 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.ahmettekin.countrieslistjetpack.R
 import com.ahmettekin.countrieslistjetpack.model.Country
+import com.ahmettekin.countrieslistjetpack.util.downloadFromUrl
+import com.ahmettekin.countrieslistjetpack.util.placeholderProgressBar
 import com.ahmettekin.countrieslistjetpack.view.FeedFragmentDirections
 import kotlinx.android.synthetic.main.item_country.view.*
 
@@ -29,6 +31,8 @@ class CountryAdapter(private val countryList: ArrayList<Country>) :
             val action = FeedFragmentDirections.actionFeedFragmentToCountryFragment()
             Navigation.findNavController(it).navigate(action)
         }
+
+        holder.view.imgCountryFlag.downloadFromUrl(countryList[position].imageUrl, placeholderProgressBar(holder.view.context))
     }
 
     override fun getItemCount() = countryList.size
