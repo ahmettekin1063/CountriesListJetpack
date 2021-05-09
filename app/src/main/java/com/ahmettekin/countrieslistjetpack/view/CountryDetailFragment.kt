@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.ahmettekin.countrieslistjetpack.R
+import com.ahmettekin.countrieslistjetpack.util.downloadFromUrl
 import com.ahmettekin.countrieslistjetpack.viewmodel.CountryDetailViewModel
 import kotlinx.android.synthetic.main.fragment_country_detail.*
 
@@ -21,12 +22,12 @@ class CountryDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(CountryDetailViewModel::class.java)
-        viewModel.getDataFromRoom()
-
         arguments?.let {
             countryUuid = CountryDetailFragmentArgs.fromBundle(it).countryUuid
         }
+
+        viewModel = ViewModelProviders.of(this).get(CountryDetailViewModel::class.java)
+        viewModel.getDataFromRoom(countryUuid)
 
         observeLiveData()
     }
@@ -39,6 +40,9 @@ class CountryDetailFragment : Fragment() {
                 tvDetailCountryCurrency.text = country.countryCurrency
                 tvDetailCountryLanguage.text = country.countryLanguage
                 tvDetailCountryRegion.text = country.countryRegion
+                context?.let {
+                    imgDetailCountryImage.downloadFromUrl(country.imageUrl)
+                }
             }
         })
     }

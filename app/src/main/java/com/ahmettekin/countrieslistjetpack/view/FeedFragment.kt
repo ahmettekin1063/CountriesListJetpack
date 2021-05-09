@@ -34,7 +34,7 @@ class FeedFragment : Fragment() {
             rvCountryList.visibility = View.GONE
             tvCountryError.visibility = View.GONE
             pbCountryLoading.visibility = View.VISIBLE
-            viewModel.refreshData()
+            viewModel.refreshFromAPI()
             swipeRefreshLayout.isRefreshing = false
         }
 

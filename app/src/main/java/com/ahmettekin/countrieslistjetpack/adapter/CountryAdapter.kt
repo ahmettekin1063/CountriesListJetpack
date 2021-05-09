@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ahmettekin.countrieslistjetpack.R
 import com.ahmettekin.countrieslistjetpack.model.Country
 import com.ahmettekin.countrieslistjetpack.util.downloadFromUrl
-import com.ahmettekin.countrieslistjetpack.util.placeholderProgressBar
 import com.ahmettekin.countrieslistjetpack.view.FeedFragmentDirections
 import kotlinx.android.synthetic.main.item_country.view.*
 
@@ -28,11 +27,11 @@ class CountryAdapter(private val countryList: ArrayList<Country>) :
         holder.view.tvRegion.text = countryList[position].countryRegion
 
         holder.view.setOnClickListener {
-            val action = FeedFragmentDirections.actionFeedFragmentToCountryFragment()
+            val action = FeedFragmentDirections.actionFeedFragmentToCountryFragment(countryList[position].uuid)
             Navigation.findNavController(it).navigate(action)
         }
 
-        holder.view.imgCountryFlag.downloadFromUrl(countryList[position].imageUrl, placeholderProgressBar(holder.view.context))
+        holder.view.imgCountryFlag.downloadFromUrl(countryList[position].imageUrl)
     }
 
     override fun getItemCount() = countryList.size
