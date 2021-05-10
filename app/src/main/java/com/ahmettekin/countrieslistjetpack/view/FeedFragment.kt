@@ -82,6 +82,4 @@ class FeedFragment : Fragment() ,CountryClickListener{
         Navigation.findNavController(v).navigate(action)
     }
 
-
-
 }
