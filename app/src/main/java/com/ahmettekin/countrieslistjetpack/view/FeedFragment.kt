@@ -6,15 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ahmettekin.countrieslistjetpack.R
 import com.ahmettekin.countrieslistjetpack.adapter.CountryAdapter
+import com.ahmettekin.countrieslistjetpack.databinding.ItemCountryBinding
+import com.ahmettekin.countrieslistjetpack.model.Country
 import com.ahmettekin.countrieslistjetpack.viewmodel.FeedViewModel
 import kotlinx.android.synthetic.main.fragment_feed.*
 
 class FeedFragment : Fragment() {
 
     private lateinit var viewModel: FeedViewModel
+
     private val countryAdapter = CountryAdapter(arrayListOf())
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -80,4 +84,9 @@ class FeedFragment : Fragment() {
 
     }
 
+    /*private fun goToDetailFragment(v: ItemCountryBinding){
+        val action = FeedFragmentDirections.actionFeedFragmentToCountryFragment((v.country!!.uuid))
+              Navigation.findNavController(v.root).navigate(action)
+
+    }*/
 }

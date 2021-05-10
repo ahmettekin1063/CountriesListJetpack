@@ -2,8 +2,15 @@
 
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 
+    <data>
+
+        <variable
+            name="selectedCountry"
+            type="com.ahmettekin.countrieslistjetpack.model.Country" />
+    </data>
 
 <RelativeLayout
     android:layout_width="match_parent"
@@ -17,8 +24,8 @@
         android:layout_alignParentTop="true"
         android:minHeight="200dp"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher_round"
-        android:paddingTop="10dp">
+        android:paddingTop="10dp"
+        android:downloadUrl="@{selectedCountry.imageUrl}">
 
     </ImageView>
 
@@ -27,11 +34,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imgDetailCountryImage"
-        android:text="Country Name"
-        android:textSize="20sp"
-        android:textStyle="bold"
         android:layout_centerHorizontal="true"
-        android:layout_margin="7dp">
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="7dp"
+        android:text="@{selectedCountry.countryName}"
+        android:textSize="20sp"
+        android:textStyle="bold">
 
     </TextView>
 
@@ -40,10 +50,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvDetailCountryName"
-        android:text="Country Capital"
-        android:textSize="16sp"
         android:layout_centerHorizontal="true"
-        android:layout_margin="7dp">
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="7dp"
+        android:textSize="16sp"
+        android:text="@{selectedCountry.countryCapital}">
 
     </TextView>
 
@@ -52,10 +65,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvDetailCountryCapital"
-        android:text="Country Region"
-        android:textSize="16sp"
         android:layout_centerHorizontal="true"
-        android:layout_margin="7dp">
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="7dp"
+        android:textSize="16sp"
+        android:text="@{selectedCountry.countryRegion}">
 
     </TextView>
 
@@ -64,10 +80,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvDetailCountryRegion"
-        android:text="Country Currency"
-        android:textSize="16sp"
         android:layout_centerHorizontal="true"
-        android:layout_margin="7dp">
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="7dp"
+        android:textSize="16sp"
+        android:text="@{selectedCountry.countryCurrency}">
 
     </TextView>
 
@@ -76,10 +95,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvDetailCountryCurrency"
-        android:text="Country Language"
-        android:textSize="16sp"
         android:layout_centerHorizontal="true"
-        android:layout_margin="7dp">
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="7dp"
+        android:textSize="16sp"
+        android:text="@{selectedCountry.countryLanguage}">
 
     </TextView>
 
