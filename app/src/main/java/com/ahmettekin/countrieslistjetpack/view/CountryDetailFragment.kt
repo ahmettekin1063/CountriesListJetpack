@@ -9,9 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.ahmettekin.countrieslistjetpack.R
 import com.ahmettekin.countrieslistjetpack.databinding.FragmentCountryDetailBinding
-import com.ahmettekin.countrieslistjetpack.util.downloadFromUrl
 import com.ahmettekin.countrieslistjetpack.viewmodel.CountryDetailViewModel
-import kotlinx.android.synthetic.main.fragment_country_detail.*
 
 class CountryDetailFragment : Fragment() {
     private lateinit var viewModel: CountryDetailViewModel
@@ -25,14 +23,11 @@ class CountryDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         arguments?.let {
             countryUuid = CountryDetailFragmentArgs.fromBundle(it).countryUuid
         }
-
         viewModel = ViewModelProviders.of(this).get(CountryDetailViewModel::class.java)
         viewModel.getDataFromRoom(countryUuid)
-
         observeLiveData()
     }
 
@@ -40,14 +35,6 @@ class CountryDetailFragment : Fragment() {
         viewModel.countryLiveData.observe(viewLifecycleOwner,{ country->
             country?.let {
                 databinding.selectedCountry = it
-                /*tvDetailCountryName.text = country.countryName
-                tvDetailCountryCapital.text = country.countryCapital
-                tvDetailCountryCurrency.text = country.countryCurrency
-                tvDetailCountryLanguage.text = country.countryLanguage
-                tvDetailCountryRegion.text = country.countryRegion
-                context?.let {
-                    imgDetailCountryImage.downloadFromUrl(country.imageUrl)
-                }*/
             }
         })
     }

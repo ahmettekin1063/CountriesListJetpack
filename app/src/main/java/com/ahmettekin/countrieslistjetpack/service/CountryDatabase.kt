@@ -15,7 +15,6 @@ abstract class CountryDatabase : RoomDatabase() {
 
         @Volatile
         private var instance: CountryDatabase? = null
-
         private val lock = Any()
 
         operator fun invoke(context: Context) = instance ?: synchronized(lock) {

@@ -6,26 +6,12 @@ import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 
 class CustomSharedPreferences private constructor(){
-
     companion object {
-
         private val PREFERENCES_TIME = "preferences_time"
         private var sharedPreferences: SharedPreferences? = null
 
         @Volatile
         private var instance: CustomSharedPreferences? = null
-
-        /*operator fun invoke(context: Context): CustomSharedPreferences? {
-            instance?.let {
-                synchronized(Any()){
-                    makeCustomSharedPreferences(context).also {
-                        instance = it
-                    }
-                }
-            }
-            return instance
-        }*/
-
         private val lock = Any()
 
         operator fun invoke(context: Context): CustomSharedPreferences =

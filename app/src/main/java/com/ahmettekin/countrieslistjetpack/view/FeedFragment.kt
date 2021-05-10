@@ -5,88 +5,83 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ahmettekin.countrieslistjetpack.R
 import com.ahmettekin.countrieslistjetpack.adapter.CountryAdapter
-import com.ahmettekin.countrieslistjetpack.databinding.ItemCountryBinding
-import com.ahmettekin.countrieslistjetpack.model.Country
+import com.ahmettekin.countrieslistjetpack.adapter.CountryClickListener
+import com.ahmettekin.countrieslistjetpack.databinding.FragmentFeedBinding
 import com.ahmettekin.countrieslistjetpack.viewmodel.FeedViewModel
-import kotlinx.android.synthetic.main.fragment_feed.*
 
-class FeedFragment : Fragment() {
-
+class FeedFragment : Fragment() ,CountryClickListener{
     private lateinit var viewModel: FeedViewModel
-
-    private val countryAdapter = CountryAdapter(arrayListOf())
+    private lateinit var databinding: FragmentFeedBinding
+    private val countryAdapter = CountryAdapter(arrayListOf(),this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_feed, container, false)
+        databinding = DataBindingUtil.inflate(inflater, R.layout.fragment_feed,container,false)
+        return databinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel = ViewModelProviders.of(this).get(FeedViewModel::class.java)
         viewModel.refreshData()
-
-        rvCountryList.layoutManager = LinearLayoutManager(context)
-        rvCountryList.adapter = countryAdapter
-
-        swipeRefreshLayout.setOnRefreshListener {
-            rvCountryList.visibility = View.GONE
-            tvCountryError.visibility = View.GONE
-            pbCountryLoading.visibility = View.VISIBLE
+        databinding.rvCountryList.layoutManager = LinearLayoutManager(context)
+        databinding.rvCountryList.adapter = countryAdapter
+        databinding.swipeRefreshLayout.setOnRefreshListener {
+            databinding.rvCountryList.visibility = View.GONE
+            databinding.tvCountryError.visibility = View.GONE
+            databinding.pbCountryLoading.visibility = View.VISIBLE
             viewModel.refreshFromAPI()
-            swipeRefreshLayout.isRefreshing = false
+            databinding.swipeRefreshLayout.isRefreshing = false
         }
-
         observeLiveData()
 
     }
 
     private fun observeLiveData(){
-
         viewModel.countries.observe(viewLifecycleOwner, { countries ->
                 countries?.let {
-                    rvCountryList.visibility = View.VISIBLE
+                    databinding.rvCountryList.visibility = View.VISIBLE
                     countryAdapter.updateCountryList(countries)
                 }
-
         })
-
         viewModel.countryError.observe(viewLifecycleOwner, { error->
-
             error?.let {
                 if(it){
-                    tvCountryError.visibility = View.VISIBLE
-                    pbCountryLoading.visibility = View.GONE
-                    rvCountryList.visibility = View.GONE
+                    databinding.tvCountryError.visibility = View.VISIBLE
+                    databinding.pbCountryLoading.visibility = View.GONE
+                    databinding.rvCountryList.visibility = View.GONE
                 }else{
-                    tvCountryError.visibility = View.GONE
+                    databinding.tvCountryError.visibility = View.GONE
                 }
             }
-
         })
-
         viewModel.countryLoading.observe(viewLifecycleOwner, { loading ->
             loading?.let {
                 if(it){
-                    pbCountryLoading.visibility = View.VISIBLE
-                    rvCountryList.visibility = View.GONE
-                    tvCountryError.visibility = View.GONE
+                    databinding.pbCountryLoading.visibility = View.VISIBLE
+                    databinding.rvCountryList.visibility = View.GONE
+                    databinding.tvCountryError.visibility = View.GONE
                 }else{
-                    pbCountryLoading.visibility = View.GONE
+                    databinding.pbCountryLoading.visibility = View.GONE
                 }
             }
         })
-
     }
 
-    /*private fun goToDetailFragment(v: ItemCountryBinding){
-        val action = FeedFragmentDirections.actionFeedFragmentToCountryFragment((v.country!!.uuid))
-              Navigation.findNavController(v.root).navigate(action)
+    override fun onCountryClicked(v: View) {
+        v as LinearLayout
+        val clickedCountryUuid = (v.getChildAt(0) as TextView).text.toString().toInt()
+        val action = FeedFragmentDirections.actionFeedFragmentToCountryFragment(clickedCountryUuid)
+        Navigation.findNavController(v).navigate(action)
+    }
 
-    }*/
+
+
 }

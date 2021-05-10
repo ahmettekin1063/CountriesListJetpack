@@ -15,7 +15,8 @@ class CountryAPIService {
         .build()
         .create(CountryAPI::class.java)
 
-    fun getData() : Single<List<Country>>{
+    fun getData() : Single<List<Country>> {
         return retrofit.getCountries()
     }
+
 }

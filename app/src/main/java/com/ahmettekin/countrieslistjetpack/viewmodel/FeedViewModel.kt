@@ -1,13 +1,9 @@
 package com.ahmettekin.countrieslistjetpack.viewmodel
 
 import android.app.Application
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.ahmettekin.countrieslistjetpack.model.Country
 import com.ahmettekin.countrieslistjetpack.service.CountryAPIService
-import com.ahmettekin.countrieslistjetpack.service.CountryDao
 import com.ahmettekin.countrieslistjetpack.service.CountryDatabase
 import com.ahmettekin.countrieslistjetpack.util.CustomSharedPreferences
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -17,19 +13,16 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
 
 class FeedViewModel(application: Application) : BaseViewModel(application) {
-
     private val disposable = CompositeDisposable()
     private val countryAPIService = CountryAPIService()
     private var customPreferences = CustomSharedPreferences(getApplication())
     private val REFRESH_TIME = 0.1 * 60 * 1000 * 1000 * 1000L
-
     val countries = MutableLiveData<List<Country>>()
     val countryError = MutableLiveData<Boolean>()
     val countryLoading = MutableLiveData<Boolean>()
 
     fun refreshData() {
         val updateTime = customPreferences.getTime()
-
         if (updateTime != null && updateTime != 0L && System.nanoTime() - updateTime < REFRESH_TIME) {
             getDataFromSQLite()
         }else{
@@ -56,6 +49,7 @@ class FeedViewModel(application: Application) : BaseViewModel(application) {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : DisposableSingleObserver<List<Country>>() {
+
                     override fun onSuccess(t: List<Country>) {
                         storeInSQLite(t)
                     }
